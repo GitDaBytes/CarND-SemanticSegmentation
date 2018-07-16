@@ -112,7 +112,8 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                                         num_classes,
                                         16, strides=(8,8), padding='same',
                                         kernel_initializer = tf.random_normal_initializer(stddev=weights_initializer_stddev),
-                                        kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+                                        kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3),
+                                        name='logits_output')
             
     return output
 
@@ -256,7 +257,7 @@ def run():
         # save our model
         saver = tf.train.Saver() # used to save our trained model
         print('saving trained model...')
-        save_path = saver.save(sess, os.path.join(vgg_path, 'segment_net_trained.ckpt'))
+        save_path = saver.save(sess, os.path.join(vgg_path, 'semantic_segment_trained'))
 
         # TODO: Save inference data using helper.save_inference_samples
         print('make some inferences and saving them to disk...')

@@ -57,6 +57,27 @@ def maybe_download_pretrained_vgg(data_dir):
         # Remove zip file to save space
         os.remove(os.path.join(vgg_path, vgg_filename))
 
+#add some randomizations to prevent overfitting
+def modify_picture(image, label):
+
+    # flip
+    if np.random.rand() > 0.5:
+        image = np.fliplr(image)
+        label = np.fliplr(label)
+
+    # rotate    
+    if np.random.rand() > 0.5:
+        max_angle = 5
+        image = scipy.ndimage.interpolation.rotate(image, random.uniform(-max_angle, max_angle))
+        label = scipy.ndimage.interpolation.rotate(label, random.uniform(-max_angle, max_angle))
+
+    # shift
+    if np.random.rand() > 0.5:
+        max_zoom = 1.3
+        image = scipy.ndimage.interpolation.shift(image, random.uniform(-1, 1))    
+        label = scipy.ndimage.interpolation.shift(label, random.uniform(-1, 1))
+
+    return image, label
 
 def gen_batch_function(data_folder, image_shape):
     """
@@ -84,8 +105,14 @@ def gen_batch_function(data_folder, image_shape):
             for image_file in image_paths[batch_i:batch_i+batch_size]:
                 gt_image_file = label_paths[os.path.basename(image_file)]
 
-                image = scipy.misc.imresize(scipy.misc.imread(image_file), image_shape)
-                gt_image = scipy.misc.imresize(scipy.misc.imread(gt_image_file), image_shape)
+                image = scipy.misc.imread(image_file)
+                gt_image = scipy.misc.imread(gt_image_file)
+
+                # augment the image to stop overfitting (adds random image shift)
+                image, gt_image = modify_picture(image, gt_image)
+
+                image = scipy.misc.imresize(image, image_shape)
+                gt_image = scipy.misc.imresize(gt_image, image_shape)
 
                 gt_bg = np.all(gt_image == background_color, axis=2)
                 gt_bg = gt_bg.reshape(*gt_bg.shape, 1)

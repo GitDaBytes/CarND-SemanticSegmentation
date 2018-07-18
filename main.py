@@ -170,7 +170,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     # TODO: Implement function
 
     keep_prob_val = .5
-    learning_rate_val = 0.00001
+    learning_rate_val = 0.00003
 
     print('starting training loop...')
 
@@ -211,7 +211,7 @@ def run():
     runs_dir = './runs'
     tests.test_for_kitti_dataset(data_dir)
 
-    epochs = 15  #48
+    epochs = 10  #48
     batch_size = 4 #12
 
     print('** check to download model')

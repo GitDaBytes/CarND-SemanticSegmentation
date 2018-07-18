@@ -26,7 +26,7 @@ The most difficult part of building the network for me was to figure out how to 
 
 ### Training
 
-I used the Adam Optimizer to train the network. I also added a value of 0.5 for the dropout to the VGG network. L2 regularization was added to each layer of the decoder sa suggested by Udacity. I first set the initial weights of the decoder layers by using a Xavier initializer but I found I had much better luck with using a normal distribution. I tried many values for batch and epoch and learning rate. I managed to get the batch size up to 4 by training on an AWS GPU server with a high end graphics card. The learning rate had to be quite small I found to get the loss to continue decreasing. Settling on a value of 0.00001. I ended up setting the number of epochs to around 15. I did not try training beyond that number, but I found that less than this left a very grainy image (poor classification).
+I used the Adam Optimizer to train the network. I also added a value of 0.5 for the dropout to the VGG network. L2 regularization was added to each layer of the decoder sa suggested by Udacity. I first set the initial weights of the decoder layers by using a Xavier initializer but I found I had much better luck with using a normal distribution. I tried many values for batch and epoch and learning rate. I managed to get the batch size up to 4 by training on an AWS GPU server with a high end graphics card. The learning rate had to be quite small I found to get the loss to continue decreasing. Settling on a value of 0.00003. I ended up setting the number of epochs to around 10. I did not try training beyond that number, but I found that less than this left a very grainy image (poor classification).
 
 ### Inference
 
